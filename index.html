@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday</title>
+<style>
+        :root {
+            /* Light mode colors */
+            --bg-color: #fef0f7;
+            --text-primary: #444;
+            --text-secondary: #6d7e96;
+            --text-accent: #e889aa;
+            --button-primary: #e889aa;
+            --button-primary-hover: #d577a0;
+            --button-secondary: #7dd3c0;
+            --button-secondary-hover: #6bc4b0;
+            --modal-bg: rgba(0, 0, 0, 0.5);
+            --card-bg: #fff;
+            --card-header-bg: #ffd6e4;
+            --card-content-bg: #ffebf2;
+            --close-btn-hover: #ffbcd5;
+            --letter-text-color: #7a4b73;
+            --border-color: #ffc0d5;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --music-control-bg: rgba(232, 137, 170, 0.9);
+            --music-control-hover: rgba(213, 119, 160, 0.9);
+        }
+
+        [data-theme="dark"] {
+            /* Dark mode colors */
+            --bg-color: #1a1a2e;
+            --text-primary: #eee;
+            --text-secondary: #a8b3c7;
+            --text-accent: #ff6b9d;
+            --button-primary: #ff6b9d;
+            --button-primary-hover: #e55a87;
+            --button-secondary: #4ecdc4;
+            --button-secondary-hover: #45b7aa;
+            --modal-bg: rgba(0, 0, 0, 0.8);
+            --card-bg: #2d2d44;
+            --card-header-bg: #3a3a5c;
+            --card-content-bg: #252538;
+            --close-btn-hover: #4a4a6a;
+            --letter-text-color: #c9a9c9;
+            --border-color: #4a4a6a;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --music-control-bg: rgba(255, 107, 157, 0.9);
+            --music-control-hover: rgba(229, 90, 135, 0.9);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            transition: background-color 0.3s ease;
+        }
+
+
+
+        .page {
+            text-align: center;
+            margin-bottom: 50px;
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .title {
+            font-size: 48px;
+            font-weight: bold;
+            color: var(--text-primary);
+            margin: 0;
+            line-height: 1.2;
+            transition: color 0.3s ease;
+        }
+
+        .subtitle {
+            color: var(--text-accent);
+            font-size: 48px;
+            font-weight: bold;
+            margin: 0;
+            display: inline;
+            transition: color 0.3s ease;
+        }
+
+        .emoji {
+            font-size: 48px;
+            margin-left: 10px;
+            color: var(--text-primary);
+            transition: color 0.3s ease;
+        }
+
+        .instruction {
+            color: var(--text-secondary);
+            font-size: 18px;
+            margin: 30px 0;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .next-btn {
+            background: var(--button-primary);
+            color: white;
+            border: none;
+            padding: 15px 60px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(232, 137, 170, 0.3);
+        }
+
+        .next-btn:hover {
+            background: var(--button-primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(232, 137, 170, 0.4);
+        }
+
+        .next-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Page 2 styles */
+        .envelope-img, .crying-img, .header-img {
+            max-width: 300px;
+            height: auto;
+            margin-bottom: 30px;
+        }
+        
+        .crying-img {
+            margin-top: 20px;
+        }
+        
+        .header-img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 5px solid white;
+            transform: rotate(-3deg);
+            transition: transform 0.3s ease;
+        }
+        
+        .header-img:hover {
+            transform: rotate(3deg);
+        }
+
+        .question-text {
+            font-size: 24px;
+            color: var(--text-primary);
+            margin: 20px 0 40px 0;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .plea-title {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--text-primary);
+            margin: 5px 0;
+            line-height: 1.2;
+            transition: color 0.3s ease;
+        }
+        
+        .plea-subtitle {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--text-primary);
+            margin: 5px 0 40px 0;
+            transition: color 0.3s ease;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .choice-btn {
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .open-btn {
+            background: var(--button-primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(232, 137, 170, 0.3);
+        }
+
+        .open-btn:hover {
+            background: var(--button-primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(232, 137, 170, 0.4);
+        }
+
+        .no-btn {
+            background: var(--button-secondary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(125, 211, 192, 0.3);
+        }
+
+        .no-btn:hover {
+            background: var(--button-secondary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(125, 211, 192, 0.4);
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--modal-bg);
+            animation: fadeIn 0.3s ease;
+            transition: background-color 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .letter-container {
+            background: var(--card-bg);
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            position: relative;
+            animation: slideIn 0.3s ease;
+            transition: all 0.3s ease;
+        }
+
+        .letter-header {
+            background: var(--card-header-bg);
+            padding: 15px 20px;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .letter-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--letter-text-color);
+            margin: 0;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--letter-text-color);
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: var(--close-btn-hover);
+        }
+
+        .letter-content {
+            padding: 30px;
+            background-color: var(--card-content-bg);
+            background-image: url('rjonvzwh90.png');
+            background-size: 100% 100%;
+            min-height: 500px;
+            position: relative;
+            transition: background-color 0.3s ease;
+        }
+
+        .letter-greeting {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--letter-text-color);
+            margin-bottom: 30px;
+            margin-top: 60px;
+            font-style: italic;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+            transition: color 0.3s ease;
+        }
+
+        .letter-text {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--letter-text-color);
+            margin-bottom: 20px;
+            text-align: left;
+            font-style: italic;
+            text-shadow: 0 0 3px rgba(255, 255, 255, 0.7);
+            padding: 0 20px;
+            transition: color 0.3s ease;
+        }
+
+        .letter-signature {
+            text-align: right;
+            font-style: italic;
+            color: var(--letter-text-color);
+            margin-top: 40px;
+            padding-right: 20px;
+            margin-bottom: 30px;
+            text-shadow: 0 0 3px rgba(255, 255, 255, 0.7);
+            transition: color 0.3s ease;
+        }
+        
+        [contenteditable="true"]:focus {
+            outline: 2px dashed rgba(255, 150, 180, 0.5);
+            padding: 5px;
+            border-radius: 5px;
+        }
+        
+        .letter-actions {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        /* 手机端适配 */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 32px;
+            }
+            
+            .subtitle {
+                font-size: 32px;
+            }
+            
+            .emoji {
+                font-size: 32px;
+            }
+            
+            .header-img {
+                width: 150px;
+                height: 150px;
+                border-radius: 12px;
+            }
+            
+            .instruction {
+                font-size: 16px;
+                margin: 20px 0;
+            }
+            
+            .next-btn {
+                padding: 12px 40px;
+                font-size: 16px;
+            }
+            
+            .envelope-img, .crying-img {
+                max-width: 250px;
+            }
+            
+            .question-text {
+                font-size: 20px;
+                margin: 15px 0 30px 0;
+            }
+            
+            .plea-title {
+                font-size: 28px;
+            }
+            
+            .plea-subtitle {
+                font-size: 24px;
+            }
+            
+            .choice-btn {
+                padding: 12px 30px;
+                font-size: 16px;
+            }
+            
+            .button-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .letter-container {
+                width: 95%;
+                max-height: 85vh;
+            }
+            
+            .letter-content {
+                padding: 20px;
+            }
+            
+            .letter-greeting {
+                font-size: 20px;
+                margin-top: 40px;
+            }
+            
+            .letter-text {
+                font-size: 14px;
+                padding: 0 10px;
+            }
+            
+            .letter-signature {
+                padding-right: 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .title {
+                font-size: 28px;
+            }
+            
+            .subtitle {
+                font-size: 28px;
+            }
+            
+            .emoji {
+                font-size: 28px;
+            }
+            
+            .header-img {
+                width: 120px;
+                height: 120px;
+                border-radius: 10px;
+            }
+            
+            .instruction {
+                font-size: 14px;
+            }
+            
+            .plea-title {
+                font-size: 24px;
+            }
+            
+            .plea-subtitle {
+                font-size: 20px;
+            }
+            
+            .envelope-img, .crying-img {
+                max-width: 200px;
+            }
+            
+            .letter-container {
+                width: 98%;
+            }
+            
+            .letter-content {
+                padding: 15px;
+            }
+            
+            .letter-greeting {
+                font-size: 18px;
+            }
+            
+            .letter-text {
+                font-size: 13px;
+            }
+        }
+        
+
+
+        /* 控制按钮通用样式 */
+
+
+        
+        /* 深色模式切换按钮 */
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: var(--music-control-bg);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 1001;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(232, 137, 170, 0.3);
+        }
+        
+        .theme-toggle:hover {
+            background: var(--music-control-hover);
+            transform: scale(1.1);
+        }
+        
+        @media (max-width: 768px) {
+            .theme-toggle {
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+                bottom: 15px;
+                left: 15px;
+            }
+            
+
+        }
+    </style>
+<script src="https://lib.youware.com/youware-lib.1747145198.js" id="yourware-lib"></script></head>
+    <body>
+
+    
+    <!-- 深色模式切换按钮 -->
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙</button>
+
+    <!-- Birthday Theme Music (hidden audio) -->
+    <audio id="birthdayMusic" src="sfx/Happy Birthday Piano Music Loop 🎂 ｜ Cute Cake & Balloons – 20 Min Background.mp3" loop preload="auto" autoplay muted></audio>
+    <button id="musicControl" style="position:fixed;bottom:20px;right:20px;z-index:1001;background:var(--music-control-bg);border:none;border-radius:50%;width:50px;height:50px;color:white;font-size:22px;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 15px rgba(232,137,170,0.3);" title="Play/Pause Music">🎵</button>
+    
+    <!-- Page 1: Birthday greeting -->
+    <div class="page active" id="page1">
+        <img src="img/505507249_18270810853279728_8163791328497227561_n.jpg" alt="Birthday character" class="header-img">
+        <h1 class="title">Happy Birthday</h1>
+        <h1 class="subtitle">BOBAY!</h1>
+        <span class="emoji">🎀🌑✨</span>
+        
+        <p class="instruction">Click the next button!!</p>
+        
+        <button class="next-btn" onclick="showPage2()">Next!!</button>
+    </div>
+
+    <!-- Page 2: Envelope question -->
+    <div class="page" id="page2">        
+        <img src="img/519f9151-a36c-40ff-86e6-d117e67530bc_736x559.jpg" alt="Pink envelope" class="envelope-img">
+
+        <p class="question-text">Do you want to open it?</p>
+        
+        <div class="button-container">
+<button class="choice-btn open-btn" onclick="promptPasswordAndOpen()">Open it</button>
+
+<script>
+function promptPasswordAndOpen() {
+    const password = prompt("Enter Bobay's Birthday Dates!!!😝😝😝(NUMBERS ONLY)");
+    if (password === "08082010") {
+        openEnvelope();
+    } else if (password !== null) {
+        alert("R U KIDDING ME?!!😡😡😡 TRY AGAIN!!!!");
+    }
+}
+</script>
+            <button class="choice-btn no-btn" onclick="sayNo()">No ty</button>
+        </div>
+    </div>
+
+    <!-- Letter Modal -->
+    <div class="modal" id="letterModal">
+        <div class="letter-container">
+            <div class="letter-header">
+                <h3 class="letter-title">Ooo.. A message!!</h3>
+                <button class="close-btn" onclick="closeLetter()">×</button>
+            </div>
+            <div class="letter-content">
+                <div class="letter-greeting">Happy Birthday, Bobay!!!</div>
+                
+                <div class="letter-text">
+                    <img src="https://ih1.redbubble.net/image.3204996717.9429/raf,360x360,075,t,fafafa:ca443f4786.jpg" alt="carrying images" style="width:100%;height:auto;">
+                </div>
+                
+                <div class="letter-text">
+                
+                </div>
+                
+                <div class="letter-text"></div>
+                
+                <div class="letter-text"></div>
+                
+                <div class="letter-text">❤️
+                </div>
+                
+                <div class="letter-signature"><br>
+                    ♡
+                </div>
+                
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Page 3: Please try again -->
+    <div class="page" id="page3">
+        <img src="img/OIP.webp" alt="Crying character" class="crying-img">
+        
+        <h2 class="plea-title">Awh.. Let's try again?</h2>
+        <h2 class="plea-subtitle">PLEASEE?</h2>
+        
+        <div class="button-container">
+            <button class="choice-btn open-btn" id="againBtn" onclick="showForcePage()">Again..?</button>
+            <button class="choice-btn no-btn" onclick="growAgainBtnOnce()">No ty</button>
+        </div>
+    </div>
+
+    <!-- Force Accept Page -->
+    <div class="page" id="forcePage" style="display:none;">
+        <h1 style="font-size:2.2em;color:var(--text-accent);margin-top:120px;">THIS IS FORCE U CAN'T DECLINE THIS😝😝😝😝</h1>
+    </div>
+
+<script>
+// Set music volume to 30% on DOMContentLoaded
+window.addEventListener('DOMContentLoaded', function() {
+    const music = document.getElementById('birthdayMusic');
+    if (music) music.volume = 0.3;
+});
+
+// Play/unmute music on first user interaction (mobile-friendly)
+function enableMusicAutoplay() {
+    const music = document.getElementById('birthdayMusic');
+    if (music) {
+        music.muted = false;
+        music.play().catch(()=>{});
+    }
+    // Remove listeners after first attempt
+    window.removeEventListener('touchstart', enableMusicAutoplay);
+    window.removeEventListener('click', enableMusicAutoplay);
+    window.removeEventListener('keydown', enableMusicAutoplay);
+}
+window.addEventListener('touchstart', enableMusicAutoplay, {passive:true});
+window.addEventListener('click', enableMusicAutoplay);
+window.addEventListener('keydown', enableMusicAutoplay);
+
+// Music control button
+const music = document.getElementById('birthdayMusic');
+const musicBtn = document.getElementById('musicControl');
+let isMusicPlaying = false;
+
+function playMusic() {
+    if (!music) return;
+    music.muted = false;
+    music.play().then(() => {
+        isMusicPlaying = true;
+        musicBtn.innerHTML = '⏸️';
+    }).catch(() => {
+        isMusicPlaying = false;
+        musicBtn.innerHTML = '🎵';
+    });
+}
+function pauseMusic() {
+    if (!music) return;
+    music.pause();
+    isMusicPlaying = false;
+    musicBtn.innerHTML = '🎵';
+}
+musicBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (isMusicPlaying) {
+        pauseMusic();
+    } else {
+        playMusic();
+    }
+});
+window.addEventListener('DOMContentLoaded', function() {
+    musicBtn.innerHTML = '🎵';
+});
+function showForcePage() {
+    document.getElementById('page3').classList.remove('active');
+    document.getElementById('forcePage').style.display = 'block';
+    document.getElementById('forcePage').classList.add('active');
+    setTimeout(() => {
+        document.getElementById('forcePage').classList.remove('active');
+        document.getElementById('forcePage').style.display = 'none';
+        document.getElementById('page1').classList.add('active');
+        againBtnGrowScale = 1;
+        const btn = document.getElementById('againBtn');
+        if (btn) {
+            btn.style.transition = 'all 0.3s cubic-bezier(.4,2,.6,1)';
+            btn.style.transform = 'scale(1)';
+            btn.style.zIndex = '';
+        }
+    }, 3000);
+}
+</script>
+        </div>
+<script>
+// Grow Again..? button by 100% per click (No ty)
+let againBtnGrowScale = 1;
+function growAgainBtnOnce() {
+    const btn = document.getElementById('againBtn');
+    if (!btn) return;
+    againBtnGrowScale *= 2;
+    btn.style.transition = 'all 0.3s cubic-bezier(.4,2,.6,1)';
+    btn.style.transform = `scale(${againBtnGrowScale})`;
+    btn.style.zIndex = 1000;
+    // No reset: keep growing forever
+}
+</script>
+        </div>
+    </div>
+
+    <script>
+        // 预加载图片
+        window.addEventListener('DOMContentLoaded', function() {
+            const imagesToPreload = [
+                '9yy3sxblhj.png',
+                'lhwhk0jmgr.jpg',
+                'rjonvzwh90.png', 
+                'bhsdbylqmq.gif',
+                'ac50yaer7b.jpg'
+            ];
+            
+            imagesToPreload.forEach(src => {
+                const img = new Image();
+                img.src = src;
+            });
+        });
+        
+        function showPage2() {
+            document.getElementById('page1').classList.remove('active');
+            document.getElementById('page2').classList.add('active');
+        }
+
+        function openEnvelope() {
+            document.getElementById('letterModal').classList.add('active');
+        }
+
+        function closeLetter() {
+            document.getElementById('letterModal').classList.remove('active');
+        }
+
+        function sayNo() {
+            document.getElementById('page2').classList.remove('active');
+            document.getElementById('page3').classList.add('active');
+        }
+        
+        function finalNo() {
+            alert('Okay, I understand... maybe next time! 🥺');
+            document.getElementById('page3').classList.remove('active');
+            document.getElementById('page1').classList.add('active');
+        }
+        
+        // 移除了音乐相关功能
+        
+        // 内容保存功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为可编辑的文本区域添加自动保存功能
+            const editableElements = document.querySelectorAll('[contenteditable="true"]');
+            editableElements.forEach(element => {
+                // 添加输入事件监听，实现自动保存
+                element.addEventListener('input', function() {
+                    // 当内容改变时自动保存
+                    saveLetterContent(false); // false表示不显示提示
+                });
+                
+                // 添加失去焦点事件，确保编辑完成时保存
+                element.addEventListener('blur', function() {
+                    saveLetterContent(false);
+                });
+            });
+        });
+        
+function tryAgain() {
+    document.getElementById('page3').classList.remove('active');
+    document.getElementById('page1').classList.add('active');
+    // Reset Again..? button size
+    againBtnGrowScale = 1;
+    const btn = document.getElementById('againBtn');
+    if (btn) {
+        btn.style.transition = 'all 0.3s cubic-bezier(.4,2,.6,1)';
+        btn.style.transform = 'scale(1)';
+        btn.style.zIndex = '';
+    }
+}
+        
+        function saveLetterContent(showAlert = true) {
+            if (showAlert) {
+                alert('Content saved! 💌');
+            }
+            
+            // 这里可以添加保存到本地存储的代码
+            const letterGreeting = document.querySelector('.letter-greeting').innerText;
+            const letterTexts = [...document.querySelectorAll('.letter-text')].map(el => el.innerText);
+            const letterSignature = document.querySelector('.letter-signature').innerHTML;
+            
+            // 保存到localStorage
+            localStorage.setItem('letterContent', JSON.stringify({
+                greeting: letterGreeting,
+                texts: letterTexts,
+                signature: letterSignature
+            }));
+        }
+        
+        // 加载保存的内容
+        function loadSavedContent() {
+            const savedContent = localStorage.getItem('letterContent');
+            
+            if (savedContent) {
+                try {
+                    const content = JSON.parse(savedContent);
+                    
+                    // 恢复内容
+                    document.querySelector('.letter-greeting').innerText = content.greeting;
+                    
+                    const textElements = document.querySelectorAll('.letter-text');
+                    content.texts.forEach((text, index) => {
+                        if (textElements[index]) {
+                            textElements[index].innerText = text;
+                        }
+                    });
+                    
+                    document.querySelector('.letter-signature').innerHTML = content.signature;
+                } catch (e) {
+                    console.error('Failed to load saved content', e);
+                }
+            }
+        }
+
+        // 页面加载时尝试恢复保存的内容
+        window.addEventListener('DOMContentLoaded', loadSavedContent);
+
+        // 深色模式功能
+        function toggleTheme() {
+            const body = document.body;
+            const themeToggle = document.getElementById('themeToggle');
+            
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            if (newTheme === 'dark') {
+                body.setAttribute('data-theme', 'dark');
+                themeToggle.innerHTML = '☀️';
+            } else {
+                body.removeAttribute('data-theme');
+                themeToggle.innerHTML = '🌙';
+            }
+            
+            localStorage.setItem('theme', newTheme);
+        }
+        
+        // 初始化主题
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            const body = document.body;
+            const themeToggle = document.getElementById('themeToggle');
+            
+            if (savedTheme === 'dark') {
+                body.setAttribute('data-theme', 'dark');
+                themeToggle.innerHTML = '☀️';
+            } else {
+                body.removeAttribute('data-theme');
+                themeToggle.innerHTML = '🌙';
+            }
+        }
+        
+        // 页面加载时初始化主题
+        window.addEventListener('DOMContentLoaded', initTheme);
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('letterModal');
+            if (event.target === modal) {
+                closeLetter();
+            }
+        }
+    </script>
+
+
+
+</body>
+</html>
