@@ -557,7 +557,12 @@
 // Set music volume to 30% on DOMContentLoaded
 window.addEventListener('DOMContentLoaded', function() {
     const music = document.getElementById('birthdayMusic');
-    if (music) music.volume = 0.3;
+        if (music) {
+        music.volume = 0.3;
+        music.muted = false;
+        // Try to play immediately (may require user interaction on some browsers)
+        music.play().catch(()=>{});
+    }
 });
 
 // Play/unmute music on first user interaction (mobile-friendly)
@@ -903,6 +908,7 @@ function tryAgain() {
 </body>
 
 </html>
+
 
 
 
