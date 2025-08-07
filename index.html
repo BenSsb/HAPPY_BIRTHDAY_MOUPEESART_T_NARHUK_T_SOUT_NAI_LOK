@@ -304,7 +304,9 @@
             padding: 30px;
             background-color: var(--card-content-bg);
             background-image: url('https://raw.githubusercontent.com/BenSsb/HAPPY_BIRTHDAY_PEESARTMOU_T_NARHUK_T_SOUT_NAI_UNIVERSE/refs/heads/main/bd8eb99245046184625cd14e3ca7cf3e.jpg');
-            background-size: 100% 100%;
+            background-size: cover;         /* Make background image fit */
+            background-position: center;    /* Center the image */
+            background-repeat: no-repeat;   /* Prevent tiling */
             min-height: 500px;
             position: relative;
             transition: background-color 0.3s ease;
@@ -679,8 +681,13 @@ function promptPasswordAndOpen() {
                 </div>
                 
                 <div class="letter-signature"><br>
-                    ♡
+                    ♡ Bobay ♡
+               </div>
+                <!-- HBD Button -->
+                <div style="text-align:center; margin-top: 30px;">
+                    <button id="hbdBtn" class="choice-btn open-btn" style="font-size:20px;padding:12px 40px;" onclick="showHBDPage()">HBD</button>
                 </div>
+            </div>
                 
 
             </div>
@@ -740,6 +747,58 @@ function growAgainBtnOnce() {
 </script>
         </div>
     </div>
+
+    <!-- 1. Add this HBD page after your other modals/pages, before </body> -->
+<div class="modal" id="hbdPage" style="display:none;">
+    <div style="background:#fff0f7;border-radius:16px;max-width:90vw;padding:30px;text-align:center;box-shadow:0 8px 32px rgba(232,137,170,0.25);">
+        <h2 style="color:#e889aa;">🎉 HBD Bobay! 🎉</h2>
+        <p style="font-size:1.3em;color:var(--text-primary);margin-top:30px;">Wishing you all the happiness and love on your special day!</p>
+        <!-- Add local video here -->
+        <video width="360" height="215" controls style="margin:20px 0; border-radius:12px;">
+            <source src="img/0807 (1).mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <button class="choice-btn no-btn" style="margin-top:20px;" onclick="closeHBDPage()">Close</button>
+    </div>
+</div>
+
+<script>
+function showVideoPage() {
+    document.getElementById('letterModal').classList.remove('active');
+    document.getElementById('videoModal').style.display = 'flex';
+    document.getElementById('videoModal').classList.add('active');
+}
+
+// Add this function to show the HBD page
+function showHBDPage() {
+    document.getElementById('letterModal').classList.remove('active');
+    document.getElementById('hbdPage').style.display = 'flex';
+    document.getElementById('hbdPage').classList.add('active');
+    // Pause music
+    const music = document.getElementById('birthdayMusic');
+    if (music && !music.paused) music.pause();
+    // Listen for video end
+    const video = document.querySelector('#hbdPage video');
+    if (video) {
+        video.currentTime = 0;
+        video.play();
+        video.onended = function() {
+            if (music) music.play();
+        };
+    }
+}
+
+function closeHBDPage() {
+    document.getElementById('hbdPage').style.display = 'none';
+    document.getElementById('hbdPage').classList.remove('active');
+    // Resume music when modal closes
+    const music = document.getElementById('birthdayMusic');
+    if (music) music.play();
+    // Remove video end listener
+    const video = document.querySelector('#hbdPage video');
+    if (video) video.onended = null;
+}
+</script>
 
     <script>
         // 预加载图片
@@ -912,6 +971,7 @@ function tryAgain() {
 </body>
 
 </html>
+
 
 
 
